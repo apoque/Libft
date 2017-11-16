@@ -1,20 +1,42 @@
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apoque <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/08 19:10:07 by apoque            #+#    #+#             */
+/*   Updated: 2017/11/16 11:00:39 by apoque           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
-#include <stdlib.h>
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	void	*tmp;
+	size_t	i;
+	char	*dst_char;
+	char	*src_char;
 
-	tmp = (void *)malloc(sizeof(void *) * n);
-
-	if (!tmp)
-		return(NULL);
+	dst_char = (char *)dst;
+	src_char = (char *)src;
+	if (src <= dst && dst <= src + len)
+	{
+		i = len;
+		while (i > 0)
+		{
+			dst_char[i - 1] = src_char[i - 1];
+			i--;
+		}
+	}
 	else
 	{
-		ft_memcpy(tmp, src, n);
-		ft_memcpy(dest, tmp, n);
-		free(tmp);
-		return(dest);
+		i = 0;
+		while (i < len)
+		{
+			dst_char[i] = src_char[i];
+			i++;
+		}
 	}
+	return (dst);
 }

@@ -1,27 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apoque <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/08 19:01:02 by apoque            #+#    #+#             */
+/*   Updated: 2017/11/16 10:59:39 by apoque           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+static int	check_max(unsigned long long nb, int neg)
 {
-	int	neg;
-	int	res;
+	if (nb >= 9223372036854775807 && neg == 0)
+		return (-1);
+	if (nb > 9223372036854775807 && neg == 1)
+		return (0);
+	if (neg == 1)
+		return (-nb);
+	return (nb);
+}
 
-	neg = 1;
-	res = 0;
-	while ((unsigned char)*str < 33)
-		str++;
-	if (*str == '-' || *str == '+')
+int			ft_atoi(const char *str)
+{
+	int					i;
+	int					neg;
+	unsigned long long	nb;
+
+	i = 0;
+	neg = 0;
+	nb = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-')
 	{
-		if (*str == '-')
-			neg = -1;
-		str++;
+		neg = 1;
+		i++;
 	}
-	while (*str != '\0' && ft_isdigit(*str))
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = res * 10 + (int)*str - 48;
-		str++;
+		nb = nb * 10 + (str[i] - 48);
+		i++;
 	}
-	if (neg == -1)
-		return (-res);
-	else
-		return (res);
+	return (check_max(nb, neg));
 }

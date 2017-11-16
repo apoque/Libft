@@ -1,41 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apoque <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/08 19:05:43 by apoque            #+#    #+#             */
+/*   Updated: 2017/11/16 10:25:59 by apoque           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
-#include <string.h>
-#include <stdlib.h>
 
-int	ft_power(long n)
+static int	ft_string_size(long long n, int signe)
 {
-	int		power;
+	int	size;
 
-	power = 1;
-	while (n > 9)
+	size = 1 + signe;
+	while (n / 10 > 0)
 	{
 		n = n / 10;
-		power++;
+		size++;
 	}
-	return (power);
+	return (size);
 }
 
-char	*ft_itoa(int n)
+char		*ft_itoa(int n)
 {
-	long		nbr;
-	int		power;
-	int		neg;
-	char		*nb;
+	long long	result;
+	char		*str;
+	int			signe;
+	int			size;
+	int			i;
 
-	neg = (n < 0) ? 1 : 0;
-	nbr = (n < 0) ? -n : n;
-	power = ft_power(nbr);
-	nb = (char *)malloc(sizeof(char) * (power + neg + 1));
-	if(!nb)
+	signe = 0;
+	i = 0;
+	result = (long long)n;
+	if (result < 0)
+		signe = 1;
+	if (result < 0)
+		result = -result;
+	size = ft_string_size(result, signe);
+	if (!(str = ft_strnew(size)))
 		return (NULL);
-	if (neg == 1)
-		nb[0] = '-';
-	nb[power + neg] = '\0';
-	while (nbr != 0)
+	if (signe == 1)
+		str[0] = '-';
+	while (i < size - signe)
 	{
-		nb[power + neg - 1] = nbr % 10 + 48;
-		power--;
-		nbr = nbr / 10;
+		str[size - 1 - i] = result % 10 + 48;
+		result = result / 10;
+		i++;
 	}
-	return (&nb[0]);
+	return (str);
 }

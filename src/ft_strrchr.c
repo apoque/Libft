@@ -1,20 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apoque <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/08 19:16:45 by apoque            #+#    #+#             */
+/*   Updated: 2017/11/13 12:08:19 by apoque           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <string.h>
 
 char	*ft_strrchr(const char *str, int c)
 {
-	char	*tmp;
-	char	*last_position;
-	char	car;
+	int	i;
 
-	tmp = (char *)str;
-	last_position = NULL;
-	car = (char)c;
-	while (*tmp != '\0')
+	i = ft_strlen(str);
+	while (i >= 0)
 	{
-		if (*tmp == car)
-			last_position = tmp;
-		tmp++;
+		if (str[i] == (char)c)
+			return ((char *)str + i);
+		i--;
 	}
-	return (last_position);
+	return (NULL);
 }
